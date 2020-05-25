@@ -23,21 +23,23 @@ import java.util.List;
 
 /**
  * Param check util
+ * 参数校验class
  *
  * @author Nacos
  */
 public class ParamUtils {
 
-    private static char[] validChars = new char[] {'_', '-', '.', ':'};
+    private static char[] validChars = new char[]{'_', '-', '.', ':'};
 
     /**
      * 白名单的方式检查, 合法的参数只能包含字母、数字、以及validChars中的字符, 并且不能为空
      *
      * @param param
-     * @return
+     * @return 成功 true 非法 false
      */
     public static boolean isValid(String param) {
-        if (param == null) {
+        // 阻止null 异常
+        if (StringUtils.isBlank(param)) {
             return false;
         }
         int length = param.length();
@@ -50,6 +52,7 @@ public class ParamUtils {
         return true;
     }
 
+    // 检测是否含有非法字符
     private static boolean isValidChar(char ch) {
         for (char c : validChars) {
             if (c == ch) {
@@ -60,33 +63,33 @@ public class ParamUtils {
     }
 
     public static void checkKeyParam(String dataId, String group) throws NacosException {
-        if (StringUtils.isBlank(dataId) || !ParamUtils.isValid(dataId)) {
+        if (!ParamUtils.isValid(dataId)) {
             throw new NacosException(NacosException.CLIENT_INVALID_PARAM, "dataId invalid");
         }
-        if (StringUtils.isBlank(group) || !ParamUtils.isValid(group)) {
+        if (!ParamUtils.isValid(group)) {
             throw new NacosException(NacosException.CLIENT_INVALID_PARAM, "group invalid");
         }
     }
 
     public static void checkTDG(String tenant, String dataId, String group) throws NacosException {
         checkTenant(tenant);
-        if (StringUtils.isBlank(dataId) || !ParamUtils.isValid(dataId)) {
+        if (!ParamUtils.isValid(dataId)) {
             throw new NacosException(NacosException.CLIENT_INVALID_PARAM, "dataId invalid");
         }
-        if (StringUtils.isBlank(group) || !ParamUtils.isValid(group)) {
+        if (!ParamUtils.isValid(group)) {
             throw new NacosException(NacosException.CLIENT_INVALID_PARAM, "group invalid");
         }
     }
 
     public static void checkKeyParam(String dataId, String group, String datumId)
         throws NacosException {
-        if (StringUtils.isBlank(dataId) || !ParamUtils.isValid(dataId)) {
+        if (!ParamUtils.isValid(dataId)) {
             throw new NacosException(NacosException.CLIENT_INVALID_PARAM, "dataId invalid");
         }
-        if (StringUtils.isBlank(group) || !ParamUtils.isValid(group)) {
+        if (!ParamUtils.isValid(group)) {
             throw new NacosException(NacosException.CLIENT_INVALID_PARAM, "group invalid");
         }
-        if (StringUtils.isBlank(datumId) || !ParamUtils.isValid(datumId)) {
+        if (!ParamUtils.isValid(datumId)) {
             throw new NacosException(NacosException.CLIENT_INVALID_PARAM, "datumId invalid");
         }
     }
@@ -96,11 +99,11 @@ public class ParamUtils {
             throw new NacosException(NacosException.CLIENT_INVALID_PARAM, "dataIds invalid");
         }
         for (String dataId : dataIds) {
-            if (StringUtils.isBlank(dataId) || !ParamUtils.isValid(dataId)) {
+            if (!ParamUtils.isValid(dataId)) {
                 throw new NacosException(NacosException.CLIENT_INVALID_PARAM, "dataId invalid");
             }
         }
-        if (StringUtils.isBlank(group) || !ParamUtils.isValid(group)) {
+        if (!ParamUtils.isValid(group)) {
             throw new NacosException(NacosException.CLIENT_INVALID_PARAM, "group invalid");
         }
     }
@@ -120,7 +123,7 @@ public class ParamUtils {
     }
 
     public static void checkTenant(String tenant) throws NacosException {
-        if (StringUtils.isBlank(tenant) || !ParamUtils.isValid(tenant)) {
+        if (!ParamUtils.isValid(tenant)) {
             throw new NacosException(NacosException.CLIENT_INVALID_PARAM, "tenant invalid");
         }
     }

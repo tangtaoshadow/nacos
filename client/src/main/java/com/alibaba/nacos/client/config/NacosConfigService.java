@@ -166,6 +166,17 @@ public class NacosConfigService implements ConfigService {
         return content;
     }
 
+
+    /**
+     * @author: TangTao tangtao2099@outlook.com
+     * @website: https://www.promiselee.cn/tao
+     * @createTime: 2020/5/25 13:33
+     * @updateTime: 2020/5/25 13:33
+     * @methodName: null2defaultGroup
+     * @note: 如果group为null 使用默认组名 {@link Constants.DEFAULT_GROUP} 不为null 剔除前后空格
+     * @param group : 传入的组group名称
+     * @return java.lang.String
+     */
     private String null2defaultGroup(String group) {
         return (null == group) ? Constants.DEFAULT_GROUP : group.trim();
     }

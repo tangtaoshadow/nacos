@@ -19,7 +19,7 @@ import java.util.concurrent.TimeUnit;
 
 /**
  * Constant
- *
+ * 这里定义了nacos配置相关的常量
  * @author Nacos
  */
 public class Constants {
