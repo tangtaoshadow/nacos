@@ -25,15 +25,18 @@ import java.util.Map;
  * Config Request
  *
  * @author Nacos
+ * @updateTime 2020-5-25 13:57:01
  */
 public class ConfigRequest implements IConfigRequest {
 
+    // 主要四个参数 tenant 承租人 dataId group content
     private Map<String, Object> param = new HashMap<String, Object>();
 
     private IConfigContext configContext = new ConfigContext();
 
+    // tenant 实际上是 namespace
     public String getTenant() {
-        return (String)param.get("tenant");
+        return (String) param.get("tenant");
     }
 
     public void setTenant(String tenant) {
@@ -41,7 +44,7 @@ public class ConfigRequest implements IConfigRequest {
     }
 
     public String getDataId() {
-        return (String)param.get("dataId");
+        return (String) param.get("dataId");
     }
 
     public void setDataId(String dataId) {
@@ -49,7 +52,7 @@ public class ConfigRequest implements IConfigRequest {
     }
 
     public String getGroup() {
-        return (String)param.get("group");
+        return (String) param.get("group");
     }
 
     public void setGroup(String group) {
@@ -57,7 +60,7 @@ public class ConfigRequest implements IConfigRequest {
     }
 
     public String getContent() {
-        return (String)param.get("content");
+        return (String) param.get("content");
     }
 
     public void setContent(String content) {

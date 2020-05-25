@@ -15,11 +15,11 @@
  */
 package com.alibaba.nacos.api.config;
 
-import java.lang.reflect.Constructor;
-import java.util.Properties;
-
 import com.alibaba.nacos.api.PropertyKeyConst;
 import com.alibaba.nacos.api.exception.NacosException;
+
+import java.lang.reflect.Constructor;
+import java.util.Properties;
 
 /**
  * Config Factory
@@ -28,16 +28,24 @@ import com.alibaba.nacos.api.exception.NacosException;
  */
 public class ConfigFactory {
 
+    public static String nacosConfigServicePath = "com.alibaba.nacos.client.config.NacosConfigService";
+
     /**
-     * Create Config
-     *
-     * @param properties init param
-     * @return ConfigService
+     * @param properties : 传入的属性配置信息
+     * @return com.alibaba.nacos.api.config.ConfigService
      * @throws NacosException Exception
+     * @author TangTao tangtao2099@outlook.com
+     * @website https://www.promiselee.cn/tao
+     * @createTime 2020/5/25 14:12
+     * @updateTime 2020/5/25 14:12
+     * @methodName createConfigService
+     * @note 通过反射创建 {@link com.alibaba.nacos.client.config.NacosConfigService}
      */
     public static ConfigService createConfigService(Properties properties) throws NacosException {
+
         try {
-            Class<?> driverImplClass = Class.forName("com.alibaba.nacos.client.config.NacosConfigService");
+            // 通过反射创建 NacosConfigService
+            Class<?> driverImplClass = Class.forName(nacosConfigServicePath);
             Constructor constructor = driverImplClass.getConstructor(Properties.class);
             ConfigService vendorImpl = (ConfigService) constructor.newInstance(properties);
             return vendorImpl;
@@ -48,6 +56,7 @@ public class ConfigFactory {
 
     /**
      * Create Config
+     * 自定义 serverAddr
      *
      * @param serverAddr serverList
      * @return Config
