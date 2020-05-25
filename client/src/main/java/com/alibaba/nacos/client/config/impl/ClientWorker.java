@@ -25,11 +25,11 @@ import com.alibaba.nacos.client.config.filter.impl.ConfigFilterChainManager;
 import com.alibaba.nacos.client.config.http.HttpAgent;
 import com.alibaba.nacos.client.config.impl.HttpSimpleClient.HttpResult;
 import com.alibaba.nacos.client.config.utils.ContentUtils;
-import com.alibaba.nacos.common.utils.MD5Utils;
 import com.alibaba.nacos.client.monitor.MetricsMonitor;
 import com.alibaba.nacos.client.utils.LogUtils;
 import com.alibaba.nacos.client.utils.ParamUtil;
 import com.alibaba.nacos.client.utils.TenantUtil;
+import com.alibaba.nacos.common.utils.MD5Utils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.math.NumberUtils;
 import org.slf4j.Logger;
@@ -45,9 +45,7 @@ import java.util.concurrent.ThreadFactory;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicReference;
 
-import static com.alibaba.nacos.api.common.Constants.LINE_SEPARATOR;
-import static com.alibaba.nacos.api.common.Constants.WORD_SEPARATOR;
-import static com.alibaba.nacos.api.common.Constants.CONFIG_TYPE;
+import static com.alibaba.nacos.api.common.Constants.*;
 
 /**
  * Longpolling
@@ -447,6 +445,7 @@ public class ClientWorker {
 
         init(properties);
 
+        // 此线程工作量较小 核心数为 1
         executor = Executors.newScheduledThreadPool(1, new ThreadFactory() {
             @Override
             public Thread newThread(Runnable r) {
@@ -457,7 +456,9 @@ public class ClientWorker {
             }
         });
 
+        // 此线程 核心数为cpu核数 最大integer max 此线程任务量大 负责长轮询
         executorService = Executors.newScheduledThreadPool(Runtime.getRuntime().availableProcessors(), new ThreadFactory() {
+            // !刚创建线程池的时候 先丢一个守护线程进去
             @Override
             public Thread newThread(Runnable r) {
                 Thread t = new Thread(r);
@@ -467,6 +468,7 @@ public class ClientWorker {
             }
         });
 
+        // 每隔10ms 检测一次配置信息
         executor.scheduleWithFixedDelay(new Runnable() {
             @Override
             public void run() {
